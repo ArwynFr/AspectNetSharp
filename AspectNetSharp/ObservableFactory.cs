@@ -1,17 +1,13 @@
-﻿using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
-using System.Linq;
+﻿using System.ComponentModel.Composition.Hosting;
 
 namespace ArwynFr.AspectNetSharp
 {
     public static class ObservableFactory
     {
-        public static CompositionContainer Container = new CompositionContainer(new ApplicationCatalog());
-
         public static TObservee MakeObservee<TObservee>()
             where TObservee : ObservableBase, new()
         {
-            return MakeObservee<TObservee>(new TObservee());
+            return MakeObservee(new TObservee());
         }
 
         public static TObservee MakeObservee<TObservee>(TObservee observee)
@@ -29,9 +25,14 @@ namespace ArwynFr.AspectNetSharp
         public static TObservee ComposeObservee<TObservee>(TObservee observee)
             where TObservee : ObservableBase
         {
-            var value = MakeObservee(observee);
-            Container.GetExports<ObserverBase<TObservee>>().Select(lazy => lazy.Value.Observable = value).ToArray();
-            return value;
+            var catalog = new ApplicationCatalog();
+            var container = new CompositionContainer(catalog);
+            var proxy = MakeObservee(observee);
+            foreach(var export in container.GetExports<ObserverBase<TObservee>>())
+            {
+                export.Value.Observable = proxy;
+            }
+            return proxy;
         }
     }
 }
