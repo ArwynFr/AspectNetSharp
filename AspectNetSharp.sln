@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassObservation", "ClassObservation\ClassObservation.csproj", "{A38F54C1-DE02-4C14-90EC-41A9123304CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspectNetSharp", "AspectNetSharp\AspectNetSharp.csproj", "{A38F54C1-DE02-4C14-90EC-41A9123304CE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests Unitaires", "Tests Unitaires", "{23CB5508-2E98-4E68-B546-242667D147C0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassObservation.Tests", "ClassObservationTests\ClassObservation.Tests.csproj", "{8BE2850B-6DCE-4FD0-8D9D-1C466298252C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspectNetSharp.Tests", "AspectNetSharpTests\AspectNetSharp.Tests.csproj", "{8BE2850B-6DCE-4FD0-8D9D-1C466298252C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,7 +25,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{8BE2850B-6DCE-4FD0-8D9D-1C466298252C} = {23CB5508-2E98-4E68-B546-242667D147C0}
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {67D9188A-33CE-4B29-805C-B9C43E650820}
 	EndGlobalSection
 EndGlobal

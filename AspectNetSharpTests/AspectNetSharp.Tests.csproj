@@ -57,9 +57,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassObservation\ClassObservation.csproj">
+    <ProjectReference Include="..\ClassObservation\AspectNetSharp.csproj">
       <Project>{a38f54c1-de02-4c14-90ec-41a9123304ce}</Project>
-      <Name>ClassObservation</Name>
+      <Name>AspectNetSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
