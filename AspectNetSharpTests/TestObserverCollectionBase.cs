@@ -20,7 +20,9 @@ namespace ArwynFr.AspectNetSharp.Tests
             observable.Collection.Add(newItem);
             target.Dispose();
             Assert.AreSame(CollectionChangedSender, target.CollectionChangedSender);
-            Assert.AreSame(CollectionChangedEventArgs, target.CollectionChangedEventArgs);
+            Assert.IsInstanceOfType(target.CollectionChangedEventArgs, typeof(CollectionChangedEventArgs));
+            var outer = target.CollectionChangedEventArgs as CollectionChangedEventArgs;
+            Assert.AreSame(CollectionChangedEventArgs, outer.Inner);
         }
 
         private void Collection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -42,7 +44,7 @@ namespace ArwynFr.AspectNetSharp.Tests
             public object CollectionChangedEventArgs { get; private set; }
 
             [CollectionChanged]
-            public void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+            public void OnCollectionChanged(object sender, CollectionChangedEventArgs e)
             {
                 CollectionChangedSender = sender;
                 CollectionChangedEventArgs = e;

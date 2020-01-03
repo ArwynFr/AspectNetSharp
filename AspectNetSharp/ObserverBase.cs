@@ -10,13 +10,11 @@ namespace ArwynFr.AspectNetSharp
     public abstract class ObserverBase<TObservable> : IDisposable
         where TObservable : ObservableBase
     {
-        protected TObservable _observable;
-        protected bool _disposed = false;
-
-        private ILookup<string, PropertyChangingEventHandler> _propChangingHandlers;
-        private ILookup<string, PropertyChangedEventHandler> _propChangedHandlers;
-        private ILookup<string, OperationExecutingEventHandler> _operExecutingHandlers;
-        private ILookup<string, OperationExecutedEventHandler> _operExecutedHandlers;
+        private readonly ILookup<string, OperationExecutedEventHandler> _operExecutedHandlers;
+        private readonly ILookup<string, OperationExecutingEventHandler> _operExecutingHandlers;
+        private readonly ILookup<string, PropertyChangedEventHandler> _propChangedHandlers;
+        private readonly ILookup<string, PropertyChangingEventHandler> _propChangingHandlers;
+        private TObservable _observable;
 
         protected ObserverBase()
         {
@@ -26,23 +24,23 @@ namespace ArwynFr.AspectNetSharp
             _propChangedHandlers = CreateLookup<PropertyChangedEventHandler, PropertyChangedAttribute>();
         }
 
-        public virtual TObservable Observable
+        protected delegate void EventHandler<in TArgs>(object sender, TArgs e)
+            where TArgs : EventArgs;
+
+        public TObservable Observable
         {
+            get
+            {
+                return _observable;
+            }
             set
             {
-                if (value == null) throw new ArgumentNullException();
-                if (_observable != null) throw new InvalidOperationException();
-
+                if(object.Equals(_observable, value)) { return; }
+                if (_observable != null) { UnWeaveEvents(); }
                 _observable = value;
-
-                _observable.OperationExecuted += _observable_OperationExecuted;
-                _observable.PropertyChanged += _observable_PropertyChanged;
-                _observable.PropertyChanging += _observable_PropertyChanging;
-                _observable.OperationExecuting += _observable_OperationExecuting;
+                if (_observable != null) { WeaveEvents(); }
             }
         }
-
-        public bool IsDisposed { get { return _disposed; } }
 
         public void Dispose()
         {
@@ -50,17 +48,7 @@ namespace ArwynFr.AspectNetSharp
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed || !disposing) return;
-            _observable.OperationExecuting -= _observable_OperationExecuting;
-            _observable.PropertyChanging -= _observable_PropertyChanging;
-            _observable.PropertyChanged -= _observable_PropertyChanged;
-            _observable.OperationExecuted -= _observable_OperationExecuted;
-            _disposed = true;
-        }
-
-        [OperationExecuted("Dispose")]
+        [OperationExecuted(nameof(Dispose))]
         public void OnObservableDisposed_DisposeObserver(object sender, OperationExecutedEventArgs e) { Dispose(); }
 
         protected ILookup<string, THandler> CreateLookup<THandler, TAttribute>()
@@ -74,27 +62,43 @@ namespace ArwynFr.AspectNetSharp
                     elementSelector: meth => Delegate.CreateDelegate(typeof(THandler), this, meth.Name) as THandler);
         }
 
-        protected delegate void EventHandler<TArgs>(object sender, TArgs e)
-            where TArgs : EventArgs;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Observable = null;
+            }
+        }
 
-        protected void RaiseHandler<THandler, TArgs>(object sender, TArgs e, ILookup<string, THandler> handlers, string propertyName)
+        protected void RaiseHandler<THandler, TArgs>(object sender, TArgs eventArgs, ILookup<string, THandler> handlers, string propertyName)
             where TArgs : EventArgs
         {
             if (handlers == null) return;
             if (handlers.Contains(string.Empty))
-                foreach (var handler in handlers[string.Empty].OfType<Delegate>()) handler.DynamicInvoke(sender, e);
+                foreach (var handler in handlers[string.Empty].OfType<Delegate>()) handler.DynamicInvoke(sender, eventArgs);
             if (handlers.Contains(propertyName))
-                foreach (var handler in handlers[propertyName].OfType<Delegate>()) handler.DynamicInvoke(sender, e);
+                foreach (var handler in handlers[propertyName].OfType<Delegate>()) handler.DynamicInvoke(sender, eventArgs);
         }
 
-        private void _observable_PropertyChanging(object sender, PropertyChangingEventArgs e)
+        protected virtual void UnWeaveEvents()
         {
-            RaiseHandler(sender, e, _propChangingHandlers, e.PropertyName);
+            _observable.OperationExecuted -= _observable_OperationExecuted;
+            _observable.PropertyChanged -= _observable_PropertyChanged;
+            _observable.PropertyChanging -= _observable_PropertyChanging;
+            _observable.OperationExecuting -= _observable_OperationExecuting;
         }
 
-        private void _observable_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected virtual void WeaveEvents()
         {
-            RaiseHandler(sender, e, _propChangedHandlers, e.PropertyName);
+            _observable.OperationExecuted += _observable_OperationExecuted;
+            _observable.PropertyChanged += _observable_PropertyChanged;
+            _observable.PropertyChanging += _observable_PropertyChanging;
+            _observable.OperationExecuting += _observable_OperationExecuting;
+        }
+
+        private void _observable_OperationExecuted(object sender, OperationExecutedEventArgs e)
+        {
+            RaiseHandler(sender, e, _operExecutedHandlers, e.OperationName);
         }
 
         private void _observable_OperationExecuting(object sender, OperationExecutingEventArgs e)
@@ -102,9 +106,14 @@ namespace ArwynFr.AspectNetSharp
             RaiseHandler(sender, e, _operExecutingHandlers, e.OperationName);
         }
 
-        private void _observable_OperationExecuted(object sender, OperationExecutedEventArgs e)
+        private void _observable_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            RaiseHandler(sender, e, _operExecutedHandlers, e.OperationName);
+            RaiseHandler(sender, e, _propChangedHandlers, e.PropertyName);
+        }
+
+        private void _observable_PropertyChanging(object sender, PropertyChangingEventArgs e)
+        {
+            RaiseHandler(sender, e, _propChangingHandlers, e.PropertyName);
         }
     }
 }

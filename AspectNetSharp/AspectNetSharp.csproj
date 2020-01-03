@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CollectionChangedAttribute.cs" />
+    <Compile Include="CollectionChangedEventArgs.cs" />
+    <Compile Include="CollectionChangedEventHandler.cs" />
     <Compile Include="ObservableBase.cs" />
     <Compile Include="ObserverCollectionBase.cs" />
     <Compile Include="ObservableEventAspect.cs" />
