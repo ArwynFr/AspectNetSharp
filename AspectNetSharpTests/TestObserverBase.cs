@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
 
-namespace Chezsquall.Tools.ClassObservation
+namespace ArwynFr.AspectNetSharp.Tests
 {
     [TestClass]
     public class TestObserverBase

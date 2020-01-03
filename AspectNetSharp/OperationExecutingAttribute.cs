@@ -1,5 +1,5 @@
 ﻿
-namespace Chezsquall.Tools.ClassObservation
+namespace ArwynFr.AspectNetSharp
 {
     public sealed class OperationExecutingAttribute : ObserverAttributeBase
     {

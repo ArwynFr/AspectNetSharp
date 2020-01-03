@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Chezsquall.Tools.ClassObservation
+namespace ArwynFr.AspectNetSharp
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public abstract class ObserverAttributeBase : Attribute

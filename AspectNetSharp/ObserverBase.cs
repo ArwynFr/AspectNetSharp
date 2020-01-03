@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reflection;
 
-namespace Chezsquall.Tools.ClassObservation
+namespace ArwynFr.AspectNetSharp
 {
     [InheritedExport, PartCreationPolicy(CreationPolicy.NonShared)]
     public abstract class ObserverBase<TObservable> : IDisposable

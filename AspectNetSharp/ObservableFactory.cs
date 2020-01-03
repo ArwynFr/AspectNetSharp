@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition.Hosting;
 using System.Linq;
 
-namespace Chezsquall.Tools.ClassObservation
+namespace ArwynFr.AspectNetSharp
 {
     public static class ObservableFactory
     {
