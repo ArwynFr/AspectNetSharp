@@ -44,9 +44,15 @@ namespace ArwynFr.AspectNetSharp
 
         public bool IsDisposed { get { return _disposed; } }
 
-        public virtual void Dispose()
+        public void Dispose()
         {
-            if (_disposed) return;
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed || !disposing) return;
             _observable.OperationExecuting -= _observable_OperationExecuting;
             _observable.PropertyChanging -= _observable_PropertyChanging;
             _observable.PropertyChanged -= _observable_PropertyChanged;

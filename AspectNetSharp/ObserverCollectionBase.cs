@@ -42,9 +42,9 @@ namespace ArwynFr.AspectNetSharp
             }
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            if (_disposed) return;
+            if (_disposed || !disposing) return;
             foreach (var collection in ObservableCollections)
             {
                 collection.Value.CollectionChanged -= OnCollectionChanged;
