@@ -35,7 +35,7 @@ namespace ArwynFr.AspectNetSharp
             }
             set
             {
-                if(object.Equals(_observable, value)) { return; }
+                if (object.Equals(_observable, value)) { return; }
                 if (_observable != null) { UnWeaveEvents(); }
                 _observable = value;
                 if (_observable != null) { WeaveEvents(); }
@@ -73,11 +73,21 @@ namespace ArwynFr.AspectNetSharp
         protected void RaiseHandler<THandler, TArgs>(object sender, TArgs eventArgs, ILookup<string, THandler> handlers, string propertyName)
             where TArgs : EventArgs
         {
-            if (handlers == null) return;
+            if (handlers == null) { return; }
             if (handlers.Contains(string.Empty))
-                foreach (var handler in handlers[string.Empty].OfType<Delegate>()) handler.DynamicInvoke(sender, eventArgs);
+            {
+                foreach (var handler in handlers[string.Empty].OfType<Delegate>())
+                {
+                    handler.DynamicInvoke(sender, eventArgs);
+                }
+            }
             if (handlers.Contains(propertyName))
-                foreach (var handler in handlers[propertyName].OfType<Delegate>()) handler.DynamicInvoke(sender, eventArgs);
+            {
+                foreach (var handler in handlers[propertyName].OfType<Delegate>())
+                {
+                    handler.DynamicInvoke(sender, eventArgs);
+                }
+            }
         }
 
         protected virtual void UnWeaveEvents()
