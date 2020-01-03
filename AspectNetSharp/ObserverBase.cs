@@ -58,7 +58,7 @@ namespace ArwynFr.AspectNetSharp
         public void OnObservableDisposed_DisposeObserver(object sender, OperationExecutedEventArgs e) { Dispose(); }
 
         protected ILookup<string, THandler> CreateLookup<THandler, TAttribute>()
-            where TAttribute : ObserverAttributeBase
+            where TAttribute : ObserverBaseAttribute
             where THandler : class
         {
             return GetType().GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)

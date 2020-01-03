@@ -1,7 +1,7 @@
 ﻿
 namespace ArwynFr.AspectNetSharp
 {
-    public sealed class PropertyChangedAttribute : ObserverAttributeBase
+    public sealed class PropertyChangedAttribute : ObserverBaseAttribute
     {
         public PropertyChangedAttribute(string property = "") : base(property) { }
     }

@@ -45,7 +45,7 @@
     <Compile Include="ObserverCollectionBase.cs" />
     <Compile Include="ObservableEventAspect.cs" />
     <Compile Include="ObservableFactory.cs" />
-    <Compile Include="ObserverAttributeBase.cs" />
+    <Compile Include="ObserverBaseAttribute.cs" />
     <Compile Include="ObserverBase.cs" />
     <Compile Include="OperationExecutedAttribute.cs" />
     <Compile Include="OperationExecutedEventArgs.cs" />
