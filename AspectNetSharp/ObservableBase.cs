@@ -13,8 +13,14 @@ namespace ArwynFr.AspectNetSharp
         public event PropertyChangedEventHandler PropertyChanged;
         public event OperationExecutingEventHandler OperationExecuting;
         public event OperationExecutedEventHandler OperationExecuted;
-        
-        public void Dispose() { }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing) { }
 
         private void RaisePropertyChanging(string propertyName)
         {
