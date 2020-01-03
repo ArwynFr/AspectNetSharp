@@ -11,7 +11,7 @@ namespace ArwynFr.AspectNetSharp
         private readonly ILookup<string, NotifyCollectionChangedEventHandler> _collChangedHandlers;
         private readonly Dictionary<INotifyCollectionChanged, string> _collectionNames = new Dictionary<INotifyCollectionChanged, string>();
 
-        public ObserverCollectionBase()
+        protected ObserverCollectionBase()
         {
             _collChangedHandlers = CreateLookup<NotifyCollectionChangedEventHandler, CollectionChangedAttribute>();            
         }
@@ -44,7 +44,7 @@ namespace ArwynFr.AspectNetSharp
 
         protected override void Dispose(bool disposing)
         {
-            if (_disposed || !disposing) return;
+            if (_disposed || !disposing) { return; }
             foreach (var collection in ObservableCollections)
             {
                 collection.Value.CollectionChanged -= OnCollectionChanged;
@@ -57,9 +57,9 @@ namespace ArwynFr.AspectNetSharp
         public void OnPropertyChanging(object sender, PropertyChangingEventArgs e)
         {
             var property = typeof(TObservable).GetProperty(e.PropertyName);
-            if (!typeof(INotifyCollectionChanged).IsAssignableFrom(property.PropertyType)) return;
+            if (!typeof(INotifyCollectionChanged).IsAssignableFrom(property.PropertyType)) { return; }
             var value = property.GetValue(sender) as INotifyCollectionChanged;
-            if (value == null) return;
+            if (value == null) { return; }
             value.CollectionChanged -= OnCollectionChanged;
             _collectionNames.Remove(value);
         }
@@ -68,9 +68,9 @@ namespace ArwynFr.AspectNetSharp
         public void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             var property = typeof(TObservable).GetProperty(e.PropertyName);
-            if (!typeof(INotifyCollectionChanged).IsAssignableFrom(property.PropertyType)) return;
+            if (!typeof(INotifyCollectionChanged).IsAssignableFrom(property.PropertyType)) { return; }
             var value = property.GetValue(sender) as INotifyCollectionChanged;
-            if (value == null) return;
+            if (value == null) { return; }
             _collectionNames[value] = e.PropertyName;
             value.CollectionChanged += OnCollectionChanged;
         }
