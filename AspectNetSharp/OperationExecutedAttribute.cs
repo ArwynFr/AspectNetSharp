@@ -3,6 +3,8 @@ namespace ArwynFr.AspectNetSharp
 {
     public sealed class OperationExecutedAttribute : ObserverBaseAttribute
     {
-        public OperationExecutedAttribute(string operation = "") : base(operation) { }
+        public OperationExecutedAttribute() : this(string.Empty) { }
+
+        public OperationExecutedAttribute(string operation) : base(operation) { }
     }
 }
