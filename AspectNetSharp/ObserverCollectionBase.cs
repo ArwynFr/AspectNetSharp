@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 
-namespace Chezsquall.Tools.ClassObservation
+namespace ArwynFr.AspectNetSharp
 {
     public abstract class ObserverCollectionBase<TObservable> : ObserverBase<TObservable>
         where TObservable : ObservableBase

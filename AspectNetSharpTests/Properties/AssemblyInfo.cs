@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Les informations générales relatives à un assembly dépendent de 
 // l'ensemble d'attributs suivant. Changez les valeurs de ces attributs pour modifier les informations
 // associées à un assembly.
-[assembly: AssemblyTitle("Chezsquall.Tools.ClassObservation.Tests")]
+[assembly: AssemblyTitle("ArwynFr.AspectNetSharp.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Chezsquall")]
-[assembly: AssemblyProduct("Tools.ClassObservation")]
+[assembly: AssemblyCompany("www.arwyn.fr")]
+[assembly: AssemblyProduct("AspectNetSharp")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

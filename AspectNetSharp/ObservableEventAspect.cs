@@ -2,7 +2,7 @@
 using System.Runtime.Remoting.Messaging;
 using System.Runtime.Remoting.Proxies;
 
-namespace Chezsquall.Tools.ClassObservation
+namespace ArwynFr.AspectNetSharp
 {
     internal class ObservableEventAspect<T> : RealProxy
         where T : ObservableBase

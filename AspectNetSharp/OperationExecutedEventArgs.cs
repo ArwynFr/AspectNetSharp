@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Chezsquall.Tools.ClassObservation
+namespace ArwynFr.AspectNetSharp
 {
     public class OperationExecutedEventArgs : EventArgs
     {
