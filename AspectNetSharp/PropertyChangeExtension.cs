@@ -10,8 +10,8 @@ namespace ArwynFr.AspectNetSharp
         internal static bool SetPropertyValue<T>(this PropertyChangedEventHandler postHandler, PropertyChangingEventHandler preHandler, Func<T> getter, Action<T> setter, T newValue, [CallerMemberName] string propertyName = "")
         {
             T oldValue = getter();
-            if (Equals(oldValue, newValue)) return false;
-            if (!Equals(preHandler.Target, postHandler.Target)) throw new ArgumentException();
+            if (Equals(oldValue, newValue)) { return false; }
+            if (!Equals(preHandler.Target, postHandler.Target)) { throw new ArgumentException("preHandler and postHandler have different targets"); }
             try
             {
                 preHandler.Invoke(preHandler.Target, new PropertyChangingEventArgs(propertyName));

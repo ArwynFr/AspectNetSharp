@@ -20,19 +20,23 @@ namespace ArwynFr.AspectNetSharp
             var methodCall = msg as IMethodCallMessage;
 
             if (!methodCall.MethodBase.IsSpecialName)
+            {
                 return InvokeNormalMethod(methodCall);
+            }
 
             if (methodCall.MethodName.StartsWith("set_") &&
                 typeof(T).GetProperty(methodCall.MethodName.Substring(4)) != null)
+            {
                 return InvokePropertySetter(methodCall);
+            }
 
             return InvokeSpecialMethod(methodCall);
         }
 
         private void RaiseEvent(string eventName, string propertyName)
         {
-            var method = typeof(ObservableBase).GetMethod(string.Format("Raise{0}", eventName), BindingFlags.NonPublic | BindingFlags.Instance);
-            if (method != null) method.Invoke(_target, new object[] { propertyName });
+            var method = typeof(ObservableBase).GetMethod($"Raise{eventName}", BindingFlags.NonPublic | BindingFlags.Instance);
+            method?.Invoke(_target, new object[] { propertyName });
         }
 
         private IMessage InvokePropertySetter(IMethodCallMessage msg)
