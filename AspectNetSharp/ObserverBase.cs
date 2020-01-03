@@ -70,7 +70,7 @@ namespace ArwynFr.AspectNetSharp
             }
         }
 
-        protected void RaiseHandler<THandler, TArgs>(object sender, TArgs eventArgs, ILookup<string, THandler> handlers, string propertyName)
+        protected static void RaiseHandler<THandler, TArgs>(object sender, TArgs eventArgs, ILookup<string, THandler> handlers, string propertyName)
             where TArgs : EventArgs
         {
             if (handlers == null) { return; }
