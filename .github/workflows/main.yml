@@ -13,7 +13,7 @@ jobs:
       with:
         version: 4.2.0.1873
         scan: true
-        args: -D"sonar.projectKey=ArwynFr_AspectNetSharp" -D"sonar.organization=arwynfr" -D"sonar.sources=." -D"sonar.host.url=https://sonarcloud.io" -D"sonar.login=${{ secrets.SONAR_TOKEN }}"
+        args: -Dsonar.projectKey=ArwynFr_AspectNetSharp -Dsonar.organization=arwynfr -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
            
     - uses: warrenbuckley/Setup-MSBuild@v1
       
