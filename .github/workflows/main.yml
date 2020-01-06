@@ -1,0 +1,25 @@
+name: Continuous Integration
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+
+    - uses: actions/checkout@v1
+      
+    - name: Run Sonarcloud scanner
+      uses: mathrix-education/sonar-scanner@master
+      with:
+        version: 4.2.0.1873
+        args: |
+          -D"sonar.projectKey=ArwynFr_AspectNetSharp"
+          -D"sonar.organization=arwynfr"
+          -D"sonar.sources=."
+          -D"sonar.host.url=https://sonarcloud.io"
+          -D"sonar.login=-Dsonar.login=${{ secrets.SONAR_TOKEN }}"
+           
+    - uses: warrenbuckley/Setup-MSBuild@v1
+      
+    - name: Compile solution
+      run: msbuild AspectNetSharp.sln
