@@ -12,6 +12,7 @@ jobs:
       uses: mathrix-education/sonar-scanner@master
       with:
         version: 4.2.0.1873
+        scan: true
         args: |
           -D"sonar.projectKey=ArwynFr_AspectNetSharp"
           -D"sonar.organization=arwynfr"
