@@ -10,14 +10,22 @@ jobs:
         
     - uses: warrenbuckley/Setup-MSBuild@v1
       
+    - name: Begin Sonarcloud scanner
+      shell: powershell
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        $url = "https://binaries.sonarsource.com/Distribution/sonar-scanner-msbuild/sonar-scanner-msbuild-4.7.1.2311-net46.zip"
+        Invoke-WebRequest $url | Expand-Archive -DestinationPath C:\sonar
+        C:\sonar\SonarScanner.MSBuild.exe begin /k:ArwynFr_AspectNetSharp /o:arwynfr /d:sonar.host.url=https://sonarcloud.io /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+
     - name: Compile solution
       run: msbuild AspectNetSharp.sln
       
-    - name: Run Sonarcloud scanner
-      uses: mathrix-education/sonar-scanner@master
+    - name: End Sonarcloud scanner
+      shell: powershell
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        version: 4.2.0.1873
-        scan: true
-        args: -Dsonar.projectKey=ArwynFr_AspectNetSharp -Dsonar.organization=arwynfr -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      run: |
+        C:\sonar\SonarScanner.MSBuild.exe end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+
