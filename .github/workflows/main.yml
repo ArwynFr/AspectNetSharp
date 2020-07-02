@@ -15,7 +15,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        $url = "https://binaries.sonarsource.com/Distribution/sonar-scanner-msbuild/sonar-scanner-msbuild-4.7.1.2311-net46.zip"
+        $url = "https://github.com/SonarSource/sonar-scanner-msbuild/releases/download/4.10.0.19059/sonar-scanner-msbuild-4.10.0.19059-net46.zip"
         Invoke-WebRequest $url -Outfile C:\sonar.zip
         Expand-Archive -DestinationPath C:\sonar -Path C:\sonar.zip
         & C:\sonar\SonarScanner.MSBuild.exe begin /k:ArwynFr_AspectNetSharp /o:arwynfr /d:sonar.host.url=https://sonarcloud.io /d:sonar.login=${{ secrets.SONAR_TOKEN }}
